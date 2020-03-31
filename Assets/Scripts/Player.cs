@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed = 3.5f;
     [SerializeField] private GameObject laserPrefab;
+    [SerializeField] private float _fireRate = 0.15f;
 
-    // Start is called before the first frame update
+    private float _nextFire;
+
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
     }
 
-    // Update is called once per frame
     void Update()
     {
         CalculateMovement();
@@ -24,7 +22,9 @@ public class Player : MonoBehaviour
 
     private void Fire()
     {
-        Instantiate(laserPrefab, transform.position, Quaternion.identity);
+        if (Time.time < _nextFire) return;
+        _nextFire = Time.time + _fireRate;
+        Instantiate(laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
     }
 
     private void CalculateMovement()
