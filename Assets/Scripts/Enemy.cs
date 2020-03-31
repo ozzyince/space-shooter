@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Laser"))
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<Laser>().DestroyEx();
         else if (collision.CompareTag("Player"))
             DamagePlayer(collision);
         Destroy(gameObject);

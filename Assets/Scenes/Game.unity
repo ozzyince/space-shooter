@@ -150,10 +150,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cff6e91f0e79967419557ff24c731b71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies: {fileID: 732728267}
-  enemyPrefab: {fileID: 1719682857121206602, guid: 0198b52e57453214e9c822496b5fd75a,
+  _enemies: {fileID: 732728267}
+  _enemyPrefab: {fileID: 1719682857121206602, guid: 0198b52e57453214e9c822496b5fd75a,
     type: 3}
-  enemySpawnRate: 5
+  _enemySpawnRate: 5
+  _powerupPrefab: {fileID: 8059847809450691662, guid: 670491faecbb38f4d89eb278bbfed360,
+    type: 3}
+  _powerupSpawnRate: 7
 --- !u!4 &455167552
 Transform:
   m_ObjectHideFlags: 0
@@ -487,10 +490,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  laserPrefab: {fileID: 7563151657344574442, guid: afc2de2f72f1408409e07aa9d1695caa,
+  _singleLaserPrefab: {fileID: 1604198850952309115, guid: ad40018e2866a084c90d9b509e80a797,
+    type: 3}
+  _tripleLaserPrefab: {fileID: 4137998810720602254, guid: 983a73b661fab7e4b843944dc9a20c2d,
     type: 3}
   _fireRate: 0.15
   _lives: 3
+  _isTripleLaserActive: 0
 --- !u!212 &1750412626
 SpriteRenderer:
   m_ObjectHideFlags: 0
