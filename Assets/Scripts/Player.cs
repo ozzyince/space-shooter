@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed = 3.5f;
+    [SerializeField] private float _speed = 3.5f;
+    [SerializeField] private GameObject laserPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+        if (Input.GetKeyDown(KeyCode.Space))
+            Fire();
+    }
+
+    private void Fire()
+    {
+        Instantiate(laserPrefab, transform.position, Quaternion.identity);
     }
 
     private void CalculateMovement()
