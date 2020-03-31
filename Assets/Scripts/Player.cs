@@ -9,9 +9,12 @@ public class Player : MonoBehaviour
 
     private float _nextFire;
 
+    private SpawnManager _spawnManager;
+
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
+        _spawnManager = FindObjectOfType<SpawnManager>();
     }
 
     void Update()
@@ -37,8 +40,11 @@ public class Player : MonoBehaviour
     }
 
     public void Damage()
-    {
+    {        
         if (--_lives < 1)
+        {
+            _spawnManager.OnPlayerDeath();
             Destroy(gameObject);
+        }
     }
 }

@@ -7,8 +7,8 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        if (transform.position.y < -7f)
-            transform.position = new Vector3(UnityEngine.Random.Range(-10f, 10f), 7f, 0);
+        if (transform.position.y < -11f)
+            Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
