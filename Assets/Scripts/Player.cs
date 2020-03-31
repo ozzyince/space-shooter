@@ -2,9 +2,10 @@
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float _speed = 3.5f;
+    [SerializeField] private float _speed = 10f;
     [SerializeField] private GameObject laserPrefab;
     [SerializeField] private float _fireRate = 0.15f;
+    [SerializeField] private int _lives = 3;
 
     private float _nextFire;
 
@@ -33,5 +34,11 @@ public class Player : MonoBehaviour
         var vertical = Input.GetAxis("Vertical");
         transform.Translate((Vector3.right * horizontal + Vector3.up * vertical) * _speed * Time.deltaTime);
         transform.position = new Vector3(transform.position.x > 11.3f ? -11.3f : transform.position.x < -11.3f ? 11.3f : transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0f), 0f);
+    }
+
+    public void Damage()
+    {
+        if (--_lives < 1)
+            Destroy(gameObject);
     }
 }
