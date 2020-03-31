@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     {
         if (Time.time < _nextFire) return;
         _nextFire = Time.time + _fireRate;
-        Instantiate(laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+        Instantiate(laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
     }
 
     private void CalculateMovement()

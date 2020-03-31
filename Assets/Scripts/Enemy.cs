@@ -11,18 +11,18 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.CompareTag("Laser"))
-            Destroy(other.gameObject);
-        else if (other.CompareTag("Player"))
-            DamagePlayer(other);
+        if (collision.CompareTag("Laser"))
+            Destroy(collision.gameObject);
+        else if (collision.CompareTag("Player"))
+            DamagePlayer(collision);
         Destroy(gameObject);
     }
 
-    private void DamagePlayer(Collider other)
+    private void DamagePlayer(Collider2D collision)
     {
-        var player = other.gameObject.GetComponent<Player>();
+        var player = collision.gameObject.GetComponent<Player>();
         if (player != null)
             player.Damage();
     }
