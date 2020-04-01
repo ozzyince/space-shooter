@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -15,12 +14,18 @@ public class Player : MonoBehaviour
     [SerializeField] private bool _isTripleLaserActive = false;
     [SerializeField] private bool _isSpeedActive = false;
 
+    [SerializeField] private int _score = 0;
+
     private SpawnManager _spawnManager;
+    private UIManager _uiManager;
 
     void Start()
     {
-        transform.position = new Vector3(0, 0, 0);
+        transform.position = Vector3.zero;
         _spawnManager = FindObjectOfType<SpawnManager>();
+        _uiManager = FindObjectOfType<UIManager>();
+        _uiManager.SetScore(_score);
+        _uiManager.SetLives(_lives);
     }
 
     void Update()
@@ -52,7 +57,8 @@ public class Player : MonoBehaviour
             _shield.SetActive(false);
             return;
         }
-        if (--_lives < 1)
+        _uiManager.SetLives(--_lives);
+        if (_lives < 1)
         {
             _spawnManager.OnPlayerDeath();
             Destroy(gameObject);
@@ -107,5 +113,10 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         _isTripleLaserActive = false;
+    }
+
+    public void AddScore()
+    {
+        _uiManager.SetScore(_score += 10);
     }
 }
