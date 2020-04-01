@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed = 10f;
     [SerializeField] private GameObject _singleLaserPrefab;
     [SerializeField] private GameObject _tripleLaserPrefab;
+    [SerializeField] private GameObject _shield;
     [SerializeField] private float _fireRate = 0.15f;
     [SerializeField] private int _lives = 3;
 
@@ -45,7 +46,12 @@ public class Player : MonoBehaviour
     }
 
     public void Damage()
-    {        
+    {
+        if (_shield.activeInHierarchy)
+        {
+            _shield.SetActive(false);
+            return;
+        }
         if (--_lives < 1)
         {
             _spawnManager.OnPlayerDeath();
@@ -59,8 +65,16 @@ public class Player : MonoBehaviour
         {
             case 0: ActivateTripleLaser(); break;
             case 1: ActivateSpeed(); break;
+            case 2: ActivateShield(); break;
             default: break;
         }
+    }
+
+    private void ActivateShield()
+    {
+        _shield.SetActive(true);
+        StopCoroutine("DeactivateShield");
+        StartCoroutine("DeactivateShield");
     }
 
     private void ActivateSpeed()
@@ -75,6 +89,12 @@ public class Player : MonoBehaviour
         _isTripleLaserActive = true;
         StopCoroutine("DeactivateTripleLaser");
         StartCoroutine("DeactivateTripleLaser");
+    }
+
+    private IEnumerator DeactivateShield()
+    {
+        yield return new WaitForSeconds(5f);
+        _shield.SetActive(false);
     }
 
     private IEnumerator DeactivateSpeed()
