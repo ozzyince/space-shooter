@@ -1,20 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Powerup : MonoBehaviour
 {
     [SerializeField] private float _speed = 3f;
+    [SerializeField] private int powerupId;
 
     private Player _player;
 
-    // Start is called before the first frame update
     void Start()
     {
         _player = FindObjectOfType<Player>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
@@ -26,7 +23,7 @@ public class Powerup : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            _player.ActivateTripleLaser();
+            _player.ActivatePowerup(powerupId);
             Destroy(gameObject);
         }
     }

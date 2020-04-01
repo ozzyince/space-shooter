@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
 
     private float _nextFire;
     [SerializeField] private bool _isTripleLaserActive = false;
+    [SerializeField] private bool _isSpeedActive = false;
 
     private SpawnManager _spawnManager;
 
@@ -38,7 +40,7 @@ public class Player : MonoBehaviour
     {
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
-        transform.Translate((Vector3.right * horizontal + Vector3.up * vertical) * _speed * Time.deltaTime);
+        transform.Translate((Vector3.right * horizontal + Vector3.up * vertical) * (_isSpeedActive ? 2 : 1) * _speed * Time.deltaTime);
         transform.position = new Vector3(transform.position.x > 11.3f ? -11.3f : transform.position.x < -11.3f ? 11.3f : transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0f), 0f);
     }
 
@@ -51,14 +53,37 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ActivateTripleLaser()
+    public void ActivatePowerup(int powerupId)
+    {
+        switch (powerupId)
+        {
+            case 0: ActivateTripleLaser(); break;
+            case 1: ActivateSpeed(); break;
+            default: break;
+        }
+    }
+
+    private void ActivateSpeed()
+    {
+        _isSpeedActive = true;
+        StopCoroutine("DeactivateSpeed");
+        StartCoroutine("DeactivateSpeed");
+    }
+
+    private void ActivateTripleLaser()
     {
         _isTripleLaserActive = true;
         StopCoroutine("DeactivateTripleLaser");
         StartCoroutine("DeactivateTripleLaser");
     }
 
-    IEnumerator DeactivateTripleLaser()
+    private IEnumerator DeactivateSpeed()
+    {
+        yield return new WaitForSeconds(5f);
+        _isSpeedActive = false;
+    }
+
+    private IEnumerator DeactivateTripleLaser()
     {
         yield return new WaitForSeconds(5f);
         _isTripleLaserActive = false;

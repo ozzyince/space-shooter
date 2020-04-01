@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -7,7 +6,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _enemies;
     [SerializeField] private Enemy _enemyPrefab;
     [SerializeField] private float _enemySpawnRate = 5f;
-    [SerializeField] private Powerup _powerupPrefab;
+    [SerializeField] private Powerup[] _powerupPrefabs;
     [SerializeField] private float _powerupSpawnRate = 7f;
 
     private bool _stopSpawning = false;
@@ -32,7 +31,7 @@ public class SpawnManager : MonoBehaviour
     {
         while (!_stopSpawning)
         {
-            var enemy = Instantiate(_powerupPrefab, new Vector3(Random.Range(-8f, 8f), 7f, 0), Quaternion.identity);
+            Instantiate(_powerupPrefabs[Random.Range(0, _powerupPrefabs.Length)], new Vector3(Random.Range(-8f, 8f), 7f, 0), Quaternion.identity);
             yield return new WaitForSeconds(_powerupSpawnRate);
         }
     }
