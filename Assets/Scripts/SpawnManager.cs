@@ -11,14 +11,9 @@ public class SpawnManager : MonoBehaviour
 
     private bool _stopSpawning = false;
 
-    void Start()
-    {
-        StartCoroutine("SpawnEnemy");
-        StartCoroutine("SpawnPowerup");
-    }
-
     IEnumerator SpawnEnemy()
     {
+        yield return new WaitForSeconds(_enemySpawnRate / 2);
         while (!_stopSpawning)
         {
             var enemy = Instantiate(_enemyPrefab, new Vector3(Random.Range(-8f, 8f), 7f, 0), Quaternion.identity);
@@ -29,11 +24,18 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerup()
     {
+        yield return new WaitForSeconds(_powerupSpawnRate / 2);
         while (!_stopSpawning)
         {
             Instantiate(_powerupPrefabs[Random.Range(0, _powerupPrefabs.Length)], new Vector3(Random.Range(-8f, 8f), 7f, 0), Quaternion.identity);
             yield return new WaitForSeconds(_powerupSpawnRate);
         }
+    }
+
+    public void OnAsteroidDestroyed()
+    {
+        StartCoroutine("SpawnEnemy");
+        StartCoroutine("SpawnPowerup");
     }
 
     public void OnPlayerDeath()

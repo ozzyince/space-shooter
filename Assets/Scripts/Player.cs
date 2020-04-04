@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _shield;
     [SerializeField] private float _fireRate = 0.15f;
     [SerializeField] private int _lives = 3;
+    [SerializeField] private EngineDamage[] _damages;
 
     private float _nextFire;
     [SerializeField] private bool _isTripleLaserActive = false;
@@ -58,10 +59,15 @@ public class Player : MonoBehaviour
             return;
         }
         _uiManager.SetLives(--_lives);
-        if (_lives < 1)
+        switch (_lives)
         {
-            _spawnManager.OnPlayerDeath();
-            Destroy(gameObject);
+            case 1: case 2: Invoke("ShowDamage", 0.25f); break;
+            default:
+                {
+                    _spawnManager.OnPlayerDeath();
+                    Destroy(gameObject);
+                    break;
+                }
         }
     }
 
@@ -118,5 +124,15 @@ public class Player : MonoBehaviour
     public void AddScore()
     {
         _uiManager.SetScore(_score += 10);
+    }
+
+    private void ShowDamage()
+    {
+        switch (_lives)
+        {
+            case 2: _damages[Random.Range(0, 2)].gameObject.SetActive(true); break;
+            case 1: foreach (var _damage in _damages) _damage.gameObject.SetActive(true); break;
+            default: break;
+        }
     }
 }
