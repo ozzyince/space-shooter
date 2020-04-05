@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private Animator _animator;
     private BoxCollider2D _collider;
+    private AudioManager _audioManager;
 
     private bool _destroying = false;
     private float _baseSpeed = 0;
@@ -16,6 +17,7 @@ public class Enemy : MonoBehaviour
         _player = FindObjectOfType<Player>();
         _animator = GetComponent<Animator>();
         _collider = GetComponent<BoxCollider2D>();
+        _audioManager = FindObjectOfType<AudioManager>();
     }
 
     void Update()
@@ -45,6 +47,7 @@ public class Enemy : MonoBehaviour
         _destroying = true;
         _animator.SetTrigger("OnEnemyDeath");
         _collider.enabled = false;
+        _audioManager.PlayExplosionSound();
         Destroy(gameObject, 3f);
     }
 }

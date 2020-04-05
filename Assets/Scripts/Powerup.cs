@@ -6,10 +6,12 @@ public class Powerup : MonoBehaviour
     [SerializeField] private int powerupId;
 
     private Player _player;
+    private AudioManager _audioManager;
 
     void Start()
     {
         _player = FindObjectOfType<Player>();
+        _audioManager = FindObjectOfType<AudioManager>();
     }
 
     void Update()
@@ -24,6 +26,7 @@ public class Powerup : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             _player.ActivatePowerup(powerupId);
+            _audioManager.PlayPowerupSound();
             Destroy(gameObject);
         }
     }

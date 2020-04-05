@@ -19,11 +19,13 @@ public class Player : MonoBehaviour
 
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
+    private AudioManager _audioManager;
 
     void Start()
     {
         transform.position = Vector3.zero;
         _spawnManager = FindObjectOfType<SpawnManager>();
+        _audioManager = FindObjectOfType<AudioManager>();
         _uiManager = FindObjectOfType<UIManager>();
         _uiManager.SetScore(_score);
         _uiManager.SetLives(_lives);
@@ -41,6 +43,7 @@ public class Player : MonoBehaviour
         if (Time.time < _nextFire) return;
         _nextFire = Time.time + _fireRate;
         Instantiate(_isTripleLaserActive ? _tripleLaserPrefab : _singleLaserPrefab, transform.position, Quaternion.identity);
+        _audioManager.PlayLaserSound();
     }
 
     private void CalculateMovement()
@@ -65,6 +68,7 @@ public class Player : MonoBehaviour
             default:
                 {
                     _spawnManager.OnPlayerDeath();
+                    _audioManager.PlayExplosionSound();
                     Destroy(gameObject);
                     break;
                 }

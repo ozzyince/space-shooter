@@ -7,10 +7,12 @@ public class Asteroid : MonoBehaviour
     private float _rotationSpeed;
     private SpawnManager _spawnManager;
     private Player _player;
+    private AudioManager _audioManager;
 
     void Start()
     {
         _spawnManager = FindObjectOfType<SpawnManager>();
+        _audioManager = FindObjectOfType<AudioManager>();
         _player = FindObjectOfType<Player>();
         GetComponent<SpriteRenderer>().flipY = Random.Range(0, 2) == 1;
         _rotationSpeed = Random.Range(5f, 20f) * Mathf.Pow(-1, Random.Range(0, 2));
@@ -38,6 +40,7 @@ public class Asteroid : MonoBehaviour
         explosion.transform.localScale = transform.localScale;
         Destroy(explosion, 3f);
         _spawnManager.OnAsteroidDestroyed();
+        _audioManager.PlayExplosionSound();
         Destroy(gameObject);
     }
 }
